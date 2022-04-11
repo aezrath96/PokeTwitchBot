@@ -84,7 +84,7 @@ client.on("message", (channel, tags, message, self) => {
   // Choose random pokemon from array to spawn and add it to the database
 
   function ChangePokemon() {
-    var things = [
+    var pokemons = [
       "Pikachu",
       "Charmander",
       "Squirtle",
@@ -983,12 +983,12 @@ client.on("message", (channel, tags, message, self) => {
       "Spectrier",
       "Calyrex"
     ];
-    var thing = things[Math.floor(Math.random() * things.length)];
-    var sql = "UPDATE pokemon SET Pokemon = '" + thing + "' WHERE Id = '1'";
+    var randomPokemon = pokemons[Math.floor(Math.random() * pokemons.length)];
+    var sql = "UPDATE pokemon SET Pokemon = '" + randomPokemon + "' WHERE Id = '1'";
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      var show = things.length;
-      console.log("New Pokemon: " + thing + "! Total: " + show);
+      var showLength = pokemons.length;
+      console.log("New Pokemon: " + randomPokemon + "! Total: " + showLength);
     });
   }
 

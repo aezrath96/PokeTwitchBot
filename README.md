@@ -28,3 +28,8 @@ For all bugs and suggestions/edits, see:
 [issues](https://github.com/aezrath96/PokeTwitchBot/issues)
 
 When i feel like this is developed enough for use, i will publish a release.
+
+Use `database.sql` file for database structure.
+This does assume you already have your own MySQL database.
+
+I am personally hosting mine through: [xampp](https://www.apachefriends.org/index.html)
