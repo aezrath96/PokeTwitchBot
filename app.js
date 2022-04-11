@@ -2,7 +2,6 @@
 require("dotenv").config();
 const tmi = require("tmi.js");
 var mysql = require("mysql");
-const fs = require("fs");
 
 // Connect to MySQL
 var connection = mysql.createConnection({
@@ -63,8 +62,8 @@ client.on("message", (channel, tags, message, self) => {
   function PokemonList() {
     connection.query(
       'SELECT GROUP_CONCAT(Pokemon SEPARATOR ", ") AS spawn FROM pokemonlist WHERE User="' +
-        tags.username +
-        '" GROUP BY User',
+      tags.username +
+      '" GROUP BY User',
       function (error, result, fields) {
         if (error) throw error;
         // Check if user has any pokemon to determine whether to show row results or tell them that they don't have any
