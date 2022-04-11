@@ -988,7 +988,7 @@ client.on("message", (channel, tags, message, self) => {
     connection.query(sql, function (err, result) {
       if (err) throw err;
       var showLength = pokemons.length;
-      console.log("New Pokemon: " + randomPokemon + "! Total: " + showLength);
+      console.log("New Pokemon: " + randomPokemon + "! Total pokemons: " + showLength);
     });
   }
 
