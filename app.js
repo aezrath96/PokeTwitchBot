@@ -54,7 +54,6 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // Show Pokemon list from database
-
   function PokemonList() {
     connection.query(
       'SELECT GROUP_CONCAT(Pokemon SEPARATOR ", ") AS spawn FROM pokemonlist WHERE User="' +
@@ -73,7 +72,6 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // change pokemon to Not Set in database so people can't catch pokemon when none is spawned
-
   function ChangePokemonSet() {
     var sql = "UPDATE pokemon SET Pokemon = 'Not Set' WHERE Id = '1'";
     connection.query(sql, function (err, result) {
@@ -82,7 +80,6 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // Choose random pokemon from array to spawn and add it to the database
-
   function ChangePokemon() {
     var pokemons = [
       "Pikachu",
@@ -993,7 +990,6 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // catch pokemon and add it with user it belongs to in the database
-
   function CatchPokemon() {
     connection.query(
       'SELECT Pokemon AS spawn FROM pokemon WHERE Id="1"',
@@ -1022,7 +1018,6 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // Spawn command, only mods and streamer
-
   if (isModUp) {
     if (command === "spawn") {
       ChangePokemon();
@@ -1031,14 +1026,12 @@ client.on("message", (channel, tags, message, self) => {
   }
 
   // Catch command
-
   if (command === "catch") {
     CatchPokemon();
     ChangePokemonSet();
   }
 
   // Pokemon list command
-
   if (command === "pokedex") {
     PokemonList();
   }
