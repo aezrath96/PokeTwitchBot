@@ -22,3 +22,8 @@ You can get Oauth token here:
 In cmd, do:
 
 `npm install && npm start`
+
+For all bugs and suggestions/edits, see:
+[issues](https://github.com/aezrath96/PokeTwitchBot/issues)
+
+When i feel like this is developed enough for use, i will publish a release.
