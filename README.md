@@ -17,7 +17,7 @@ TWITCH_OAUTH_TOKEN = "oauth:BOT OAUTH TOKEN"
 `
 
 You can get Oauth token here:
-(here)[https://twitchapps.com/tmi/]
+[here](https://twitchapps.com/tmi/)
 
 In cmd, do:
 
