@@ -1,5 +1,5 @@
 // Import requirements
-require('dotenv').config();
+require("dotenv").config();
 const tmi = require("tmi.js");
 var mysql = require("mysql");
 const fs = require("fs");
@@ -986,12 +986,13 @@ client.on("message", (channel, tags, message, self) => {
       "Regidrago",
       "Glastrier",
       "Spectrier",
-      "Calyrex"
+      "Calyrex",
     ];
     // Select a pokemon at random
     var randomPokemon = pokemons[Math.floor(Math.random() * pokemons.length)];
     // Change Pokemon in the database
-    var sql = "UPDATE pokemon SET Pokemon = '" + randomPokemon + "' WHERE Id = '1'";
+    var sql =
+      "UPDATE pokemon SET Pokemon = '" + randomPokemon + "' WHERE Id = '1'";
     connection.query(sql, function (err, result) {
       if (err) throw err;
     });
@@ -1060,5 +1061,4 @@ client.on("message", (channel, tags, message, self) => {
       `Currently, available commands are: !catch and !mypokedex`
     );
   }
-
 });
