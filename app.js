@@ -1,7 +1,10 @@
+// Import requirements
 require('dotenv').config();
 const tmi = require("tmi.js");
 var mysql = require("mysql");
 const fs = require("fs");
+
+// Connect to MySQL
 var connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
@@ -11,6 +14,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
+// Connect to Twitch
 const client = new tmi.Client({
   options: { debug: true },
   identity: {
@@ -23,20 +27,20 @@ const client = new tmi.Client({
 client.connect();
 
 client.on("message", (channel, tags, message, self) => {
-  // block bot self responding
+  // Block bot self responding
   if (self || !message.startsWith("!")) return;
 
-  // define arguments
+  // Define arguments
   const args = message.slice(1).split(" ");
   const command = args.shift().toLowerCase();
 
-  // check if mod or streamer
+  // Check if mod or streamer
   const badges = tags.badges || {};
   const isBroadcaster = badges.broadcaster;
   const isMod = badges.moderator;
   const isModUp = isBroadcaster || isMod;
 
-  // functions
+  // Functions
 
   // Spawn pokemon from database using !spawn
   function SpawnPokemon() {
@@ -44,7 +48,9 @@ client.on("message", (channel, tags, message, self) => {
       'SELECT Pokemon AS spawn FROM pokemon WHERE Id="1"',
       function (error, results, fields) {
         if (error) throw error;
+        // Set Pokemon variable as spawn (Pokemon that is spawning)
         var spawn = results[0].spawn;
+        // Send message in chat that the Pokemon spawned
         client.say(
           channel,
           `A wild ` + spawn + ` has appeared. Type: !catch to catch it!`
@@ -61,6 +67,7 @@ client.on("message", (channel, tags, message, self) => {
         '" GROUP BY User',
       function (error, result, fields) {
         if (error) throw error;
+        // Check if user has any pokemon to determine whether to show row results or tell them that they don't have any
         if (result.length <= "0") {
           client.say(channel, `You don't have any pokemon.`);
         } else {
@@ -71,7 +78,7 @@ client.on("message", (channel, tags, message, self) => {
     );
   }
 
-  // change pokemon to Not Set in database so people can't catch pokemon when none is spawned
+  // Change pokemon to Not Set in database so people can't catch pokemon when none is spawned
   function ChangePokemonSet() {
     var sql = "UPDATE pokemon SET Pokemon = 'Not Set' WHERE Id = '1'";
     connection.query(sql, function (err, result) {
@@ -81,6 +88,7 @@ client.on("message", (channel, tags, message, self) => {
 
   // Choose random pokemon from array to spawn and add it to the database
   function ChangePokemon() {
+    // List of pokemon
     var pokemons = [
       "Pikachu",
       "Charmander",
@@ -980,12 +988,12 @@ client.on("message", (channel, tags, message, self) => {
       "Spectrier",
       "Calyrex"
     ];
+    // Select a pokemon at random
     var randomPokemon = pokemons[Math.floor(Math.random() * pokemons.length)];
+    // Change Pokemon in the database
     var sql = "UPDATE pokemon SET Pokemon = '" + randomPokemon + "' WHERE Id = '1'";
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      var showLength = pokemons.length;
-      console.log("New Pokemon: " + randomPokemon + "! Total pokemons: " + showLength);
     });
   }
 
@@ -995,7 +1003,9 @@ client.on("message", (channel, tags, message, self) => {
       'SELECT Pokemon AS spawn FROM pokemon WHERE Id="1"',
       function (error, results, fields) {
         if (error) throw error;
+        // Select currently spawned Pokemon
         var spawn = results[0].spawn;
+        // Check if Pokemon is spawned and either insert it into database or respond that no Pokemon is spawned.
         if (spawn == "Not Set") {
           client.say(
             channel,
@@ -1017,22 +1027,38 @@ client.on("message", (channel, tags, message, self) => {
     );
   }
 
+  // Commands
+
   // Spawn command, only mods and streamer
   if (isModUp) {
     if (command === "spawn") {
+      // Call function to choose a pokemon
       ChangePokemon();
+      // Call function to say that pokemon spawned
       SpawnPokemon();
     }
   }
 
   // Catch command
   if (command === "catch") {
+    // Call a function to add pokemon to the user
     CatchPokemon();
+    // Change pokemon to "Not Set" so nobody can catch the same pokemon at the same time
     ChangePokemonSet();
   }
 
   // Pokemon list command
-  if (command === "pokedex") {
+  if (command === "mypokedex") {
+    // Call function for the user to see their own pokemon
     PokemonList();
   }
+
+  // Help command
+  if (command === "help") {
+    client.say(
+      channel,
+      `Currently, available commands are: !catch and !mypokedex`
+    );
+  }
+
 });
