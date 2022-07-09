@@ -3,7 +3,7 @@
 
 Clone the project:
 
-`git clone https://github.com/aezrath96/PokeTwitchBot`
+`git clone https://github.com/SwyftPain/PokeTwitchBot`
 
 Create `.env` file and fill in (EDIT) data:
 
@@ -25,7 +25,7 @@ In cmd, do:
 `npm install && npm start`
 
 For all bugs and suggestions/edits, see:
-[issues](https://github.com/aezrath96/PokeTwitchBot/issues)
+[issues](https://github.com/SwyftPain/PokeTwitchBot/issues)
 
 When i feel like this is developed enough for use, i will publish a release.
 
